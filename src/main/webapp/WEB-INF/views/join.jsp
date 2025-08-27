@@ -19,7 +19,7 @@
 	</form>
 	<hr>
 	<c:if test="${not empty error}">
-		<span style="color: red;">잘못 입력하셨습니다. 다시 입력해주세요.</span>
+		<span style="color: red;">${error} 잘못 입력하셨습니다. 다시 입력해주세요.</span>
 	</c:if>
 </body>
 </html>
