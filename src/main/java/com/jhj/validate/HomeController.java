@@ -2,10 +2,14 @@ package com.jhj.validate;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -14,6 +18,11 @@ public class HomeController {
 	@RequestMapping(value = "/join")
 	public String join() {
 		return "join";
+	}
+	
+	@RequestMapping(value = "/join2")
+	public String join2() {
+		return "join2";
 	}
 	
 	@RequestMapping(value = "/joinOk") // 유저가 입력한 값이 유효한지 체크 -> validation(유효성체크)
@@ -43,5 +52,21 @@ public class HomeController {
 		model.addAttribute("studentDto", studentDto);
 		
 		return "joinOk"; // 가입 성공
+	}
+	
+	@RequestMapping(value = "/joinOk2") 
+	public String joinOk2(@Valid StudentDto studentDto, Model model, BindingResult result) {
+		
+		if(result.hasErrors()) { // 참이면 에러 발생
+			return "join2";
+		} else {
+			model.addAttribute("studentDto", studentDto);
+			return "joinOk2";
+		}
+	}
+	
+	@InitBinder
+	protected void initBinder(WebDataBinder binder) {
+		binder.setValidator(new StudentValidator());
 	}
 }
